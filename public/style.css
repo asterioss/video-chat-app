@@ -80,6 +80,15 @@ video {
     text-align: right; 
 }*/
 
+select {
+  width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
 input[type=text] {
     width: 100%;
     padding: 12px 20px;
@@ -90,7 +99,7 @@ input[type=text] {
 }
 
 button {
-    background-color: #04AA6D;
+    background-color: var(--primary-color);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -136,6 +145,19 @@ button:hover {
   display: none;
 }
 
+.container {
+	background-color: var(--main-dark);
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+	min-height: 480px;
+  padding-left: 260px;
+  padding-right: 260px;
+}
+
 .chat-form-container {
   padding: 1rem;
   display: flex;
@@ -159,6 +181,11 @@ button:hover {
 }
 
 .message {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
   display: flex;
   flex-direction: column;
 }

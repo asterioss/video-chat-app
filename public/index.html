@@ -16,20 +16,29 @@
     </div>
   </div>
   <div class="main"> 
+    <div class="container">
     <form action="main.html">
       <div class="main__left">
-      <label for="username"><b>Username</b></label>
+        <br><br>
+      <label for="username" style="color:white"><b>Username</b></label>
       <input type="text" placeholder="Enter Username" name="username" id="username" required>
-
-      <label for="room"><b>Room</b></label>
-      <input type="text" placeholder="Enter Room" name="room" id="room" required>
-        
+      <br>
+      <label for="room" style="color:white"><b>Room</b></label>
+      <select name="room" id="room">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <br>
       <button type="submit">Login</button>
     </div>
     </form>
   </div>
+  </div>
   <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
-  <!--<script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>-->
+  <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/script.js"></script>
 </body>

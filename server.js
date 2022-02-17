@@ -42,6 +42,7 @@ io.on('connection', socket => {
     socket.join(user.room);
     //when a new user connected
     socket.broadcast.to(user.room).emit('message', `${user.username} has joined the chat`);
+    socket.broadcast.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has joined the chat`));
     io.to(user.room).emit("user-connected", socket.id);
     //socket.broadcast.emit("user-connected", name);
   });
@@ -58,6 +59,7 @@ io.on('connection', socket => {
     const user = userLeave(socket.id);
     if(user) {
       io.to(user.room).emit('message', `${user.username} has left the chat`);
+      io.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has left the chat`));
     }
     //delete users[socket.id];
     //socket.broadcast.emit('user-disconnected', users[socket.id]);

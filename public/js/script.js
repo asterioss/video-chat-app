@@ -47,7 +47,7 @@ SendButton.addEventListener('click', e => {
 
     // Scroll down
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    messageInput.value = ''
+    messageInput.value = '';
 });
 
 navigator.mediaDevices
@@ -91,7 +91,7 @@ const addVideoStream = (video, stream) => {
 function appendMessage(message) {
     const div = document.createElement('div');
     div.classList.add('message');
-    div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
+    div.innerHTML = `<p class="meta" style="font-weight:600;">${message.username} <span style="float:right; font-weight:400;">${message.time}</span></p>
     <p class="text">
       ${message.text}
     </p>`
