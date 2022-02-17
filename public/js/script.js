@@ -1,8 +1,13 @@
 const socket = io();
 const messageContainer = document.getElementById('chat-form-container');
-const messageForm = document.getElementById('chat-form');
+//const messageForm = document.getElementById('chat-form');
 const messageInput = document.getElementById('message-input');
 const chatMessages = document.querySelector('.chat-messages');
+const videoGrid = document.getElementById("video-grid");
+const myVideo = document.createElement("video");
+const showChat = document.querySelector("#showChat");
+const backBtn = document.querySelector(".header__back");
+myVideo.muted = true;
 
 const name = prompt('What is your name?');
 socket.emit('new-user', name);
@@ -20,7 +25,7 @@ socket.on('appear-message', data => {
 //const name = prompt('What is your name?');
 //appendMessage('You joined');
 //socket.emit('new-user', name);
-messageForm.addEventListener('submit', e => {
+SendButton.addEventListener('click', e => {
     e.preventDefault();
     const message = messageInput.value;
     console.log(message);
@@ -44,3 +49,11 @@ function appendMessage(message) {
     //messageContainer.append(messageElement);
     document.querySelector('.chat-messages').appendChild(div);
 }
+
+//button to invite someone
+inviteButton.addEventListener("click", (e) => {
+    prompt(
+      "Copy this link and send it to people you want to meet with",
+      window.location.href
+    );
+});
