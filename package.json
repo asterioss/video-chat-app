@@ -1,0 +1,30 @@
+{
+  "name": "video-chat-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asterioss/video-chat-app.git"
+  },
+  "author": "Asterios Lentzos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asterioss/video-chat-app/issues"
+  },
+  "homepage": "https://github.com/asterioss/video-chat-app#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "moment": "^2.29.1",
+    "socket.io": "^4.4.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
