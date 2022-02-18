@@ -12,13 +12,33 @@ const backBtn = document.querySelector(".header__back");
 //const peer = new Peer({host:'peerjs-server.herokuapp.com', secure:true, port:443});
 //peerjs --port 3001
 const myPeer = new Peer(undefined, {
-  host: '/',
-  port: '3001'
-  //secure: false
-})
+  host: 'localhost',
+  port: '9000',
+  config: {
+    //'iceTransportPolicy': "relay",
+    'iceServers': [
+      {
+        urls: "stun:vc.example.com:3478"
+       },
+       {
+        urls: "turn:vc.example.com:3478",
+        username: "coturnUser",
+        credential: "coturnUserPassword"
+       }
+    ]
+  }
+  //path: '/peerjs'
+  //secure: true
+});
 
 myVideo.muted = true;
 let myVideoStream;
+const peers = {};
+
+//get username and room from URL
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
 
 navigator.mediaDevices
   .getUserMedia({
@@ -44,28 +64,27 @@ navigator.mediaDevices
     });
   });
 
-//get username and room from URL
-const { username, room } = Qs.parse(location.search, {
-    ignoreQueryPrefix: true,
+socket.on('user-disconnected', userid => {
+  if(peers[userid]) peers[userid].close();
 });
-
 //const name = prompt('What is your name?');
 //join the room
 myPeer.on('open', userid => {
   socket.emit('join-room', { username, room, userid });
 });
-//socket.emit('new-user', name);
 
 socket.on('message', data => {
-   // appendMessage(`${data.name}: ${data.message}`)
-   console.log(data);
+  // appendMessage(`${data.name}: ${data.message}`)
+  console.log(data);
 });
 
 socket.on('appear-message', data => {
-    // appendMessage(`${data.name}: ${data.message}`)
-    //console.log(data);
-    appendMessage(data);
+   // appendMessage(`${data.name}: ${data.message}`)
+   //console.log(data);
+   appendMessage(data);
 });
+//socket.emit('new-user', name);
+
 //const name = prompt('What is your name?');
 //appendMessage('You joined');
 //socket.emit('new-user', name);
@@ -107,6 +126,7 @@ const connectToNewUser = (userid, stream) => {
     call.on('close', () => {
       video.remove();
     });
+    peers[userid] = call;
 };
 
 const addVideoStream = (video, stream) => {
@@ -152,7 +172,6 @@ if(muteButton) {
   });
 }
 
-
 //button to stop the video
 if(stopVideo) {
   stopVideo.addEventListener("click", () => {
@@ -176,7 +195,8 @@ if(inviteButton) {
   inviteButton.addEventListener("click", (e) => {
     prompt(
       "Copy this link and send it to people you want to meet with",
-      window.location.href
+      //window.location.href
+      'http://localhost:3000'
     );
   });
 }

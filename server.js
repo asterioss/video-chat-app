@@ -43,8 +43,20 @@ io.on('connection', socket => {
     socket.broadcast.to(user.room).emit('message', `${user.username} has joined the chat`);
     socket.broadcast.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has joined the chat`));
     socket.broadcast.to(user.room).emit("user-connected", userid);
-    //socket.broadcast.emit("user-connected", name);
+
+    //when client disconnects
+    socket.on('disconnect', () => {
+      const user = userLeave(socket.id);
+      if(user) {
+        io.to(user.room).emit('message', `${user.username} has left the chat`);
+        io.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has left the chat`));
+        socket.broadcast.to(user.room).emit("user-disconnected", userid);
+      }
+      //delete users[socket.id];
+      //socket.broadcast.emit('user-disconnected', users[socket.id]);
+    });
   });
+  
   //when send chat message
   socket.on('chat-message', message => {
     const user = getCurrentUser(socket.id);
@@ -52,16 +64,6 @@ io.on('connection', socket => {
     //console.log('Message:'+message);
     io.to(user.room).emit('appear-message', formatMessage(user.username, message));
     //io.emit('appear-message', formatMessage(users[socket.id], message));
-  });
-  //when client disconnects
-  socket.on('disconnect', () => {
-    const user = userLeave(socket.id);
-    if(user) {
-      io.to(user.room).emit('message', `${user.username} has left the chat`);
-      io.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has left the chat`));
-    }
-    //delete users[socket.id];
-    //socket.broadcast.emit('user-disconnected', users[socket.id]);
   });
 });
 
