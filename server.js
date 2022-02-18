@@ -14,9 +14,8 @@ const users = {};
 /*const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
-});
+});*/
 
-app.use("/peerjs", peerServer);*/
 //app.set('view engine', 'ejs')
 //set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,7 +34,7 @@ io.on('connection', socket => {
   //when user connects
   //users[socket.id] = name;
   //socket.emit('appear-message', formatMessage('ApplicationBot', 'Welcome to Chat'));
-  socket.on('join-room', ({ username, room }) => {
+  socket.on('join-room', ({ username, room, userid }) => {
     //users[socket.id] = name;
     //save the user
     const user = userJoin(socket.id, username, room);
@@ -43,7 +42,7 @@ io.on('connection', socket => {
     //when a new user connected
     socket.broadcast.to(user.room).emit('message', `${user.username} has joined the chat`);
     socket.broadcast.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has joined the chat`));
-    io.to(user.room).emit("user-connected", socket.id);
+    socket.broadcast.to(user.room).emit("user-connected", userid);
     //socket.broadcast.emit("user-connected", name);
   });
   //when send chat message
