@@ -210,10 +210,13 @@ button:hover {
   border-radius: 5px;
 }
 
-#video-grid {
+.video-grid {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  /*flipped camera*/
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 #showChat {

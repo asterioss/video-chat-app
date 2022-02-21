@@ -16,27 +16,18 @@ const peerServer = ExpressPeerServer(server, {
   debug: true,
 });*/
 
-//app.set('view engine', 'ejs')
 //set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use("/peerjs", peerServer)
 
 /*app.get('/', (req, res) => {
-  res.redirect(`/${uuidV4()}`);
-  //res.send('public/index.html');
-  //console.log("ok");
-});*/
-
-/*app.get('/:room', (req, res) => {
-  res.render('room', { roomId: req.params.room })
+  console.log("ok");
 });*/
 
 io.on('connection', socket => {
-  //when user connects
-  //users[socket.id] = name;
+  //when a user joins the room
   //socket.emit('appear-message', formatMessage('ApplicationBot', 'Welcome to Chat'));
   socket.on('join-room', ({ username, room, userid }) => {
-    //users[socket.id] = name;
     //save the user
     const user = userJoin(socket.id, username, room);
     socket.join(user.room);
@@ -45,7 +36,7 @@ io.on('connection', socket => {
     socket.broadcast.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has joined the chat`));
     socket.broadcast.to(user.room).emit("user-connected", userid);
 
-    //when client disconnects
+    //when a user disconnects
     socket.on('disconnect', () => {
       const user = userLeave(socket.id);
       if(user) {
@@ -53,15 +44,12 @@ io.on('connection', socket => {
         io.to(user.room).emit('appear-message', formatMessage('ChatBot',`${user.username} has left the chat`));
         socket.broadcast.to(user.room).emit("user-disconnected", userid);
       }
-      //delete users[socket.id];
-      //socket.broadcast.emit('user-disconnected', users[socket.id]);
     });
   });
   
   //when send chat message
   socket.on('chat-message', message => {
     const user = getCurrentUser(socket.id);
-    //socket.broadcast.emit('chat-message', { message: message, name: users[socket.id] })
     //console.log('Message:'+message);
     io.to(user.room).emit('appear-message', formatMessage(user.username, message));
     //io.emit('appear-message', formatMessage(users[socket.id], message));
