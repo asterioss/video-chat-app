@@ -110,6 +110,26 @@ const addVideoStream = (video, stream) => {
   });
   if(videoGrid) {
     videoGrid.append(video);
+    //change the size of the video
+    let totalUsers = document.getElementsByTagName("video").length;
+    if (totalUsers > 2) {
+      if(totalUsers==3) {
+        for (let index = 0; index < totalUsers; index++) {
+          document.getElementsByTagName("video")[index].style.width =
+              90 / totalUsers + "%";
+          document.getElementsByTagName("video")[index].style.height =
+              90 / totalUsers + "%";
+        }
+      }
+      else {
+        for (let index = 0; index < totalUsers; index++) {
+          document.getElementsByTagName("video")[index].style.width =
+              100 / totalUsers + "%";
+          document.getElementsByTagName("video")[index].style.height =
+              100 / totalUsers + "%";
+        }
+      }
+    }
     //VideoGroup.scrollTop = VideoGroup.scrollHeight;
   }
 };
@@ -212,7 +232,7 @@ if(shareButton) {
       if(myPeer) {
           //console.log("Current Peer", currentPeer);
           var video = document.createElement("video");
-          addVideoStream(video, stream);
+          //addVideoStream(video, stream);
 
           let sender = currentPeer.peerConnection.getSenders().find(function (s) {
               return s.track.kind == videoTrack.kind;
@@ -227,7 +247,7 @@ if(shareButton) {
             let sender = currentPeer.peerConnection.getSenders().find(function (s) {
               return s.track.kind == videoTrack.kind;
             })
-            video.remove();
+            //video.remove();
             sender.replaceTrack(video_now);
           };
       }
